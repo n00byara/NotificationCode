@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">Notification Code</string>
+    <string name="xposed_description">Module for automatically copying codes to the clipboard from notifications</string>
+</resources>
