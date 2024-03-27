@@ -6,7 +6,7 @@ import android.content.Context
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class Clip(val context: Context, val contentText: CharSequence) {
+class Clip(private val context: Context, private val contentText: CharSequence) {
     private val regExps = mutableListOf(
         ".*(\\d{6}).*",
         ".*(\\d{5}).*",
