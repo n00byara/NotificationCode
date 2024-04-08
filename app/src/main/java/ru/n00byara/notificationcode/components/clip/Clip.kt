@@ -8,12 +8,16 @@ import java.util.regex.Pattern
 
 class Clip(private val context: Context, private val contentText: CharSequence) {
     private val regExps = mutableListOf(
-        ".*(\\d{6}).*",
-        ".*(\\d{5}).*",
-        ".*((\\d{3})[-\\s](\\d{3})).*",
-        ".*(\\d{4})([^(\\d\\.\\d)][^(\\d:\\d)]).*",
-        ".*([^\\*]\\d{4}).*"
+        ".*?\n?.*?(\\d{6}).*?\n?.*?",
+        ".*?\n?.*?(\\d{5}).*?\n?.*?",
+        ".*?\n?.*?(\\d{4})([^(\\d\\.\\d)][^(\\d:\\d)]).*?\n?.*?",
+        ".*?\n?.*?([^\\*]?\\d{4}).*?\n?.*?"
     )
+
+    private val regExpForCompositeCode = ".*?\n?.*?(.*(\\d{3})[-\\s](\\d{3}).*).*?\n?.*?"
+    private lateinit var pattern: Pattern
+    private lateinit var matcher: Matcher
+    private var found = false
 
     fun addToClipBoard() {
         val manager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -25,18 +29,33 @@ class Clip(private val context: Context, private val contentText: CharSequence) 
         }
     }
 
-    private fun getResultString(matcher: Matcher, index: Int): String {
-        if (index == 2) return matcher.group(2) + matcher.group(3)
-        return matcher.group(1)
+    private fun getCode(): String? {
+        var result = getFromList(this.regExps)
+        if (result != null) return result
+
+        result = getCompositeCode()
+        if(result != null) return result
+
+        return null
     }
 
-    private fun getCode(): String? {
-        regExps.forEachIndexed { index, regExp ->
-            val pattern = Pattern.compile(regExp)
-            val matcher = pattern.matcher(contentText)
-            val found = matcher.matches()
+    private fun getCompositeCode(): String? {
+        this.pattern = Pattern.compile(this.regExpForCompositeCode)
+        this.matcher = pattern.matcher(this.contentText)
+        this.found = matcher.matches()
 
-            if (found) return getResultString(matcher, index)
+        if (this.found) return matcher.group(2) + matcher.group(3)
+
+        return null
+    }
+
+    private fun getFromList(list: List<String>): String? {
+        list.forEach { regExp ->
+            this.pattern = Pattern.compile(regExp)
+            this.matcher = pattern.matcher(this.contentText)
+            this.found = matcher.matches()
+
+            if (this.found) return matcher.group(1)
         }
         return null
     }
