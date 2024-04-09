@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="xposed_description">Модуль для автоматического копирования кодов в буфер обмена из уведомлений</string>
+    <string name="switcher_phone">Копировать номера телефонов</string>
+    <string name="switcher_code">Копировать коды</string>
+    <string name="switcher_shazam">Копировать инфо из Shazam</string>
+    <string name="switcher_track_numbers">Копировать трек номера</string>
+    <string name="screen_settings_title">Настройки</string>
+    <string name="module_info_active">Для изменений настроек модуля перезагрузка SystemUI не требуется!</string>
+    <string name="module_status_active">Модуль включен</string>
+    <string name="module_status_inactive">Модуль выключен</string>
+    <string name="screen_application_title">Приложения</string>
+    <string name="applications_card_info">Выберите приложения которые будут копировать данные, просто кликнув на них</string>
+    <string name="module_info_inactive">Для настройки модуля, его необходимо включить и после перезапустить SystemUI</string>
 </resources>

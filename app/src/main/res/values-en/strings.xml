@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="xposed_description">Module for automatically copying codes to the clipboard from notifications</string>
+    <string name="switcher_phone">Copy phone numbers</string>
+    <string name="switcher_code">Copy codes</string>
+    <string name="switcher_shazam">Copy music info from Shazam</string>
+    <string name="switcher_track_numbers">Copy track numbers</string>
+    <string name="screen_settings_title">Settings</string>
+    <string name="module_info_active">To change module settings, a SystemUI reboot is not required!</string>
+    <string name="module_status_active">Module is active</string>
+    <string name="module_status_inactive">Module is inactive</string>
+    <string name="screen_application_title">Applications</string>
+    <string name="applications_card_info">Select the applications that will copy the data by simply clicking on them</string>
+    <string name="module_info_inactive">To configure the module, you need to enable it and then restart SystemUI</string>
 </resources>
