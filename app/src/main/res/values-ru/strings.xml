@@ -10,6 +10,5 @@
     <string name="module_status_active">Модуль включен</string>
     <string name="module_status_inactive">Модуль выключен</string>
     <string name="screen_application_title">Приложения</string>
-    <string name="applications_card_info">Выберите приложения которые будут копировать данные, просто кликнув на них</string>
     <string name="module_info_inactive">Для настройки модуля, его необходимо включить и после перезапустить SystemUI</string>
 </resources>

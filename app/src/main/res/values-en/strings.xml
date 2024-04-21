@@ -10,6 +10,5 @@
     <string name="module_status_active">Module is active</string>
     <string name="module_status_inactive">Module is inactive</string>
     <string name="screen_application_title">Applications</string>
-    <string name="applications_card_info">Select the applications that will copy the data by simply clicking on them</string>
     <string name="module_info_inactive">To configure the module, you need to enable it and then restart SystemUI</string>
 </resources>

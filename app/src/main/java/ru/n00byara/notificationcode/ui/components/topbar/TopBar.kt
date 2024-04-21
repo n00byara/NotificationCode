@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -14,7 +15,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun TopBar(topBarModel: TopBarModel) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        MaterialTheme.colorScheme.onPrimary,
+        Color.Transparent,
         darkIcons =
             if (isSystemInDarkTheme()) false
             else true

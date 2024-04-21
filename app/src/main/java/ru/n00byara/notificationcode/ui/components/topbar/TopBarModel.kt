@@ -6,5 +6,5 @@ import androidx.compose.runtime.MutableState
 
 data class TopBarModel @OptIn(ExperimentalMaterial3Api::class) constructor(
     val title: MutableState<String>,
-    val scrollBehavior: TopAppBarScrollBehavior
+    val scrollBehavior: TopAppBarScrollBehavior? = null
 )

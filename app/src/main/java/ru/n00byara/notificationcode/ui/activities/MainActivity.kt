@@ -46,8 +46,7 @@ class MainActivity : ComponentActivity() {
                 val topBarTitleState = remember {
                     mutableStateOf(topBarTitle)
                 }
-                val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-                val topBarModel = TopBarModel(topBarTitleState, scrollBehavior)
+                val topBarModel = TopBarModel(topBarTitleState)
 
                 val navController = rememberNavController()
                 val bottomNavBarModel = BottomNavBarModel(
@@ -58,7 +57,6 @@ class MainActivity : ComponentActivity() {
                 )
 
                 Scaffold(
-                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                     topBar = {
                         TopBar(topBarModel)
                     },
