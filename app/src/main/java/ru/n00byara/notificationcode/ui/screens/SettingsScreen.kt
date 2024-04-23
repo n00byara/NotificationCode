@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -30,17 +29,20 @@ import ru.n00byara.notificationcode.R
 import ru.n00byara.notificationcode.ui.components.switcher.Switcher
 import ru.n00byara.notificationcode.ui.components.switcher.SwitcherModel
 import ru.n00byara.notificationcode.ui.viewmodels.SettingsScreenViewModel
+import kotlin.reflect.KFunction1
 
 @Composable
 fun SettingsScreen(
     settingsScreenViewModel: SettingsScreenViewModel = viewModel(),
-    topBarTitle: MutableState<String>,
+    setTopBarTitle: KFunction1<String, Unit>,
 ) {
-    topBarTitle.value = stringResource(R.string.screen_settings_title)
+    setTopBarTitle(stringResource(R.string.screen_settings_title))
 
     LazyColumn {
-        item {
-            LsposedInfoCard(settingsScreenViewModel.isActive)
+        if (settingsScreenViewModel.isRoot) {
+            item {
+                LsposedInfoCard(settingsScreenViewModel.isActive)
+            }
         }
 
         itemsIndexed(
@@ -50,28 +52,32 @@ fun SettingsScreen(
                     Constants.SWITCH_CODE,
                     settingsScreenViewModel.getBoolean(Constants.SWITCH_CODE),
                     settingsScreenViewModel::setBoolean,
-                    settingsScreenViewModel.isActive
+                    settingsScreenViewModel.isActive,
+                    settingsScreenViewModel.isRoot
                 ),
                 SwitcherModel(
                     R.string.switcher_phone,
                     Constants.SWITCH_PHONE,
                     settingsScreenViewModel.getBoolean(Constants.SWITCH_PHONE),
                     settingsScreenViewModel::setBoolean,
-                    settingsScreenViewModel.isActive
+                    settingsScreenViewModel.isActive,
+                    settingsScreenViewModel.isRoot
                 ),
                 SwitcherModel(
                     R.string.switcher_shazam,
-                    Constants.APPLICATION_PREF + "Shazam",
-                    settingsScreenViewModel.getBoolean(Constants.APPLICATION_PREF + "Shazam"),
+                    Constants.APPLICATION_PREF + Constants.SHAZAM_PACKAGE,
+                    settingsScreenViewModel.getBoolean(Constants.APPLICATION_PREF + Constants.SHAZAM_PACKAGE),
                     settingsScreenViewModel::setBoolean,
-                    settingsScreenViewModel.isActive
+                    settingsScreenViewModel.isActive,
+                    settingsScreenViewModel.isRoot
                 ),
                 SwitcherModel(
                     R.string.switcher_track_numbers,
                     Constants.SWITHC_TRACK_NUMBER,
                     settingsScreenViewModel.getBoolean(Constants.SWITHC_TRACK_NUMBER),
                     settingsScreenViewModel::setBoolean,
-                    settingsScreenViewModel.isActive
+                    settingsScreenViewModel.isActive,
+                    settingsScreenViewModel.isRoot
                 )
             )
         ) { _, item ->

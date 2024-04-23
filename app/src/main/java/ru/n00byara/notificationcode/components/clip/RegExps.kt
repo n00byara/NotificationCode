@@ -1,4 +1,4 @@
-package ru.n00byara.notificationcode.clip
+package ru.n00byara.notificationcode.components.clip
 
 object RegExps {
     val regExps = listOf(

@@ -1,4 +1,4 @@
-package ru.n00byara.notificationcode.ui.components.applicationinfocard
+package ru.n00byara.notificationcode.ui.components.applicationinfocheckbox
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -34,14 +34,14 @@ fun ApplicationInfoCheckBox(
     }
 
     Card(
-        modifier =Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(start = 15.dp, end = 15.dp, top = 7.dp, bottom = 7.dp)
             .clip(RoundedCornerShape(19.dp))
             .clickable {
                 checkedState.value = !checkedState.value
                 applicationInfoCheckBoxModel.setState(
-                    Constants.APPLICATION_PREF + applicationInfoCheckBoxModel.appInfo.name,
+                    Constants.APPLICATION_PREF + applicationInfoCheckBoxModel.appInfo.packageName,
                     checkedState.value
                 )
             }

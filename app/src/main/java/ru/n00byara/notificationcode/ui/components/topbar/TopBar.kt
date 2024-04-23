@@ -14,11 +14,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun TopBar(topBarModel: TopBarModel) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
+    systemUiController.setStatusBarColor(
         Color.Transparent,
-        darkIcons =
-            if (isSystemInDarkTheme()) false
-            else true
+        darkIcons = !isSystemInDarkTheme()
     )
 
     CenterAlignedTopAppBar(
@@ -29,12 +27,11 @@ fun TopBar(topBarModel: TopBarModel) {
         ),
         title = {
             Text(
-                topBarModel.title.value
+                topBarModel.title
             )
         },
-        actions = {
-
-        },
+        navigationIcon = { topBarModel.navigationIcon?.invoke() },
+        actions = { topBarModel.actions?.invoke(this) },
         scrollBehavior = topBarModel.scrollBehavior,
     )
 }

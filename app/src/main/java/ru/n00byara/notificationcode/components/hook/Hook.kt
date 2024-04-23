@@ -1,11 +1,11 @@
-package ru.n00byara.notificationcode.hook
+package ru.n00byara.notificationcode.components.hook
 
 import com.highcapable.yukihookapi.YukiHookAPI.encase
 import com.highcapable.yukihookapi.annotation.xposed.InjectYukiHookWithXposed
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 import ru.n00byara.notificationcode.Constants
 
-import ru.n00byara.notificationcode.hook.entity.SystemUIHooker
+import ru.n00byara.notificationcode.components.hook.entity.SystemUIHooker
 
 @InjectYukiHookWithXposed
 object Hook : IYukiHookXposedInit {

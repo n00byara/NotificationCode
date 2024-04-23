@@ -12,4 +12,13 @@
     <string name="module_status_inactive">Module is inactive</string>
     <string name="screen_application_title">Applications</string>
     <string name="module_info_inactive">To configure the module, you need to enable it and then restart SystemUI</string>
+    <string name="alert_dialog_use_case">Use case</string>
+    <string name="alert_dialog_use_case_non_root" translatable="false">Non root</string>
+    <string name="alert_dialog_use_case_root" translatable="false">Root</string>
+    <string name="title_activity_global_settings" translatable="false">GlobalSettingsActivity</string>
+    <string name="screen_global_settings_title">App Settings</string>
+    <string name="restart_app">Restart the applications to save the changes</string>
+    <string name="alert_dialog_permisson_firs_launch_text">For the service to work, provide permission to listen to notifications</string>
+    <string name="alert_dealog_permission_first_launch_cancel">Cancel</string>
+    <string name="alert_dealog_permission_first_launch_ok">OK</string>
 </resources>

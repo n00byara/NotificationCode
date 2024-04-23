@@ -9,8 +9,8 @@ class SettingsModel {
     private val prefs = ModuleApplication.appContext.prefs(Constants.SETTINGS_NAME)
     val isActive = YukiHookAPI.Status.isXposedModuleActive
 
-    fun getBoolean(prefName: String): Boolean {
-        return this.prefs.getBoolean(prefName, )
+    fun getBoolean(prefName: String, value: Boolean = false): Boolean {
+        return this.prefs.getBoolean(prefName, value)
     }
 
     fun setBoolean(prefName: String, value: Boolean) {

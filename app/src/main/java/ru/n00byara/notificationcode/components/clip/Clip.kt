@@ -1,16 +1,19 @@
-package ru.n00byara.notificationcode.clip
+package ru.n00byara.notificationcode.components.clip
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import com.highcapable.yukihookapi.hook.factory.prefs
-import com.highcapable.yukihookapi.hook.xposed.application.ModuleApplication
+import com.highcapable.yukihookapi.hook.xposed.prefs.YukiHookPrefsBridge
 import ru.n00byara.notificationcode.Constants
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class Clip(private val context: Context, private val contentText: CharSequence, private val contentTitle: CharSequence? = null) {
-    val prefs = ModuleApplication().prefs(Constants.SETTINGS_NAME)
+class Clip(
+    private val context: Context,
+    private val contentText: CharSequence,
+    private val contentTitle: CharSequence? = null,
+    val prefs: YukiHookPrefsBridge
+) {
 
     val regExps = RegExps.regExps
     val compositeRegExp = RegExps.regExpForCompositeCode

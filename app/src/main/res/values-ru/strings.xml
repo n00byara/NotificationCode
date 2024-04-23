@@ -11,4 +11,10 @@
     <string name="module_status_inactive">Модуль выключен</string>
     <string name="screen_application_title">Приложения</string>
     <string name="module_info_inactive">Для настройки модуля, его необходимо включить и после перезапустить SystemUI</string>
+    <string name="alert_dialog_use_case">Вариант использования</string>
+    <string name="screen_global_settings_title">Настройки приложения</string>
+    <string name="restart_app">Что бы изменения вступили в силу перезапустите приложения</string>
+    <string name="alert_dialog_permisson_firs_launch_text">Для работы сервиса предоставьте разрешение на прослушивание уведомлений</string>
+    <string name="alert_dealog_permission_first_launch_cancel">Отмена</string>
+    <string name="alert_dealog_permission_first_launch_ok">Предоставить</string>
 </resources>

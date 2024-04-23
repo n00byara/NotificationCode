@@ -13,7 +13,7 @@ android {
         minSdk = 31
         targetSdk = 34
         versionCode = 1
-        versionName = "2.0.0"
+        versionName = "3.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -55,6 +55,9 @@ dependencies {
 
     // YukiHook
     implementation ("com.highcapable.yukihookapi:api:1.2.0")
+
+    // RootBear
+    implementation("com.scottyab:rootbeer-lib:0.1.0")
 
     // Compose
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

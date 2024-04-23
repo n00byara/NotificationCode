@@ -5,5 +5,6 @@ data class SwitcherModel(
     val prefName: String,
     val state: Boolean,
     val setState: (String, Boolean) -> Unit,
-    val moduleActive: Boolean
+    val moduleActive: Boolean,
+    val isRoot: Boolean
 )
