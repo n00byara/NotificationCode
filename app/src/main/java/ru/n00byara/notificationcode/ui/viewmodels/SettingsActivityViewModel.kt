@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ru.n00byara.notificationcode.Constants
 import ru.n00byara.notificationcode.components.permission.Permission
+import ru.n00byara.notificationcode.components.terminal.Terminal
 import ru.n00byara.notificationcode.models.SettingsModel
 import ru.n00byara.notificationcode.ui.activities.GlobalSettingsActivity
 import ru.n00byara.notificationcode.ui.components.permissionalertdialog.PermissionAlertDialogModel
@@ -51,17 +52,22 @@ class SettingsActivityViewModel(application: Application) : AndroidViewModel(app
     val permissionAlertDialogState: StateFlow<PermissionAlertDialogModel> = this._permissionAlertDialogState
 
     init {
+        this.openAlertDialog()
+    }
 
-        if (isFirstLaunch) {
-            if (this.isRooted) {
-                this.openRootDialogState.value = true
-                this.settings.setInt(Constants.USE_CASE, 0)
-            } else {
-                this.openNonRootDialogState.value = true
-                this.settings.setInt(Constants.USE_CASE, 1)
-            }
+    private fun openAlertDialog() {
+        if (!this.isFirstLaunch) return
 
-            this.settings.setBoolean(IS_FIRST_LAUNCH, false)
+        if (!this.isRooted) {
+            this.settings.setInt(Constants.USE_CASE, 1)
+            this.openNonRootDialogState.value = true
+            return
+        }
+
+        when (this.settings.getInt(Constants.USE_CASE, 2)) {
+            1 -> this.openNonRootDialogState.value = true
+            0 -> this.settings.setBoolean(IS_FIRST_LAUNCH, false)
+            else -> this.openRootDialogState.value = true
         }
     }
 
@@ -70,13 +76,15 @@ class SettingsActivityViewModel(application: Application) : AndroidViewModel(app
     }
 
     private fun setSelectedCase(case: Int) {
-        if (case == 1 && !this.permission.checkPermission()) {
-            this.permission.requestPermissions()
-
-        }
-
         this.settings.setInt(Constants.USE_CASE, case)
-        this.openRootDialogState.value = false
+
+        when (case) {
+            1 -> Terminal.restartModule()
+            0 -> {
+                this.settings.setBoolean(IS_FIRST_LAUNCH, false)
+                this.openRootDialogState.value = false
+            }
+        }
     }
 
     fun updateTopBarTitle(title: String) {

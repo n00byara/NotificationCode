@@ -1,6 +1,5 @@
 package ru.n00byara.notificationcode.ui.viewmodels
 
-import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -17,7 +16,6 @@ class GlobalSettingsActivityViewModel(private val finishActivity: KFunction0<Uni
     private val _topBarUiState = MutableStateFlow(TopBarModel())
     val topBarUiState: StateFlow<TopBarModel> = this._topBarUiState.asStateFlow()
 
-    @SuppressLint("RestrictedApi")
     fun setTopBarTitle(title: String) {
         this._topBarUiState.value = TopBarModel(
             title,
