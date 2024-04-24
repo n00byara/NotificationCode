@@ -8,13 +8,7 @@ object Terminal {
         this.runCommand("killall com.android.systemui")
     }
 
-    fun restartModule() {
-        this.runCommand(
-            "killall ru.n00byara.notificationcode && am start -n ru.n00byara.notificationcode/.ui.activities.SettingsActivity"
-        )
-    }
-
-    private fun runCommand(cmd: String) {
+    private fun runCommand(cmd: String): String {
         val process = Runtime.getRuntime().exec(arrayOf("su", "-c", cmd))
 
         val reader = BufferedReader(
@@ -31,5 +25,6 @@ object Terminal {
         reader.close()
 
         process.waitFor()
+        return output.toString()
     }
 }

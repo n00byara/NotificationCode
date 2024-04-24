@@ -21,6 +21,8 @@ class GlobalSettingsActivity : ComponentActivity() {
         val globalSettingsScreenViewModel = ViewModelProvider(this).get(GlobalSettingsScreenViewModel::class.java)
         val globalSettingsActivityViewModel = ViewModelProvider(this, GlobalSettingsActivityViewModelFactory(this::finish)).get(GlobalSettingsActivityViewModel::class.java)
 
+        lifecycle.addObserver(globalSettingsScreenViewModel)
+
         setContent {
             NotificationCodeTheme {
                 val topBarModel by globalSettingsActivityViewModel.topBarUiState.collectAsState()

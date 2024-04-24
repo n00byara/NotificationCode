@@ -17,4 +17,7 @@
     <string name="alert_dialog_permisson_firs_launch_text">Для работы сервиса предоставьте разрешение на прослушивание уведомлений</string>
     <string name="alert_dealog_permission_first_launch_cancel">Отмена</string>
     <string name="alert_dealog_permission_first_launch_ok">Предоставить</string>
+    <string name="restart_systemui_after_select">Необходимо перезапустить SystemUI</string>
+    <string name="alert_dialog_use_case_recommended">(Рекомендуемый)</string>
+    <string name="access_notification_listener">Предоставить доступ к слушателю уведомлений</string>
 </resources>

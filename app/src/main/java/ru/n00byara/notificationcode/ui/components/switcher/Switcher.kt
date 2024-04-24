@@ -26,7 +26,12 @@ fun Switcher(switcherModel: SwitcherModel) {
         mutableStateOf(switcherModel.state)
     }
 
-    if (!switcherModel.moduleActive && switcherModel.isRoot) chechedState.value = false
+    if (
+        (!switcherModel.moduleActive.value && switcherModel.useCase.value == 0) ||
+        (!switcherModel.premissionAccess.value && switcherModel.useCase.value == 1)
+    ) {
+        chechedState.value = false
+    }
 
     Card(
         Modifier
@@ -50,7 +55,8 @@ fun Switcher(switcherModel: SwitcherModel) {
                 chechedState.value,
                 {
                     if (
-                        (switcherModel.moduleActive && switcherModel.isRoot) || (!switcherModel.moduleActive && !switcherModel.isRoot)
+                        (switcherModel.moduleActive.value && switcherModel.useCase.value == 0) ||
+                        (switcherModel.premissionAccess.value && switcherModel.useCase.value == 1)
                     ) {
                         chechedState.value = it
                         switcherModel.setState(switcherModel.prefName, it)

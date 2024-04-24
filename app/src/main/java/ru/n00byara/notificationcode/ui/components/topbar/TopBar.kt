@@ -13,8 +13,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(topBarModel: TopBarModel) {
+
+    // Edge to Edge
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(
+    systemUiController.setSystemBarsColor(
         Color.Transparent,
         darkIcons = !isSystemInDarkTheme()
     )

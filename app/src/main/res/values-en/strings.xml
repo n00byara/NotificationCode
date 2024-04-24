@@ -17,4 +17,7 @@
     <string name="alert_dialog_permisson_firs_launch_text">For the service to work, provide permission to listen to notifications</string>
     <string name="alert_dealog_permission_first_launch_cancel">Cancel</string>
     <string name="alert_dealog_permission_first_launch_ok">OK</string>
+    <string name="restart_systemui_after_select">Need to restart SystemUI</string>
+    <string name="alert_dialog_use_case_recommended">(Recommended)</string>
+    <string name="access_notification_listener">Grant access to notification listener</string>
 </resources>

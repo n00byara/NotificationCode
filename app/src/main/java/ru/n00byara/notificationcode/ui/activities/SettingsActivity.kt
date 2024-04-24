@@ -15,9 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import ru.n00byara.notificationcode.ui.components.bottomnavigationbar.BottomNavBar
 import ru.n00byara.notificationcode.ui.components.bottomnavigationbar.BottomNavBarModel
 import ru.n00byara.notificationcode.ui.components.bottomnavigationbar.Screen
-import ru.n00byara.notificationcode.ui.components.permissionalertdialog.PermissionAlertDialog
 import ru.n00byara.notificationcode.ui.components.topbar.TopBar
-import ru.n00byara.notificationcode.ui.components.usecasealertdialog.UseCaseAlertDialog
 import ru.n00byara.notificationcode.ui.screens.ApplicationsScreen
 import ru.n00byara.notificationcode.ui.screens.SettingsScreen
 import ru.n00byara.notificationcode.ui.theme.NotificationCodeTheme
@@ -38,21 +36,10 @@ class SettingsActivity : ComponentActivity() {
         val settingsScreenViewModel = ViewModelProvider(this).get(SettingsScreenViewModel::class.java)
         val applicationsScreenViewModel = ViewModelProvider(this).get(ApplicationsScreenViewModel::class.java)
 
+        lifecycle.addObserver(settingsScreenViewModel)
+
         setContent {
             NotificationCodeTheme {
-                val openRootDialogState = settingsActivityViewModel.openRootDialogState
-                if (openRootDialogState.value) {
-                    val useCaseAlertDialogModel by settingsActivityViewModel.useCaseAlertDialogUiState.collectAsState()
-                    UseCaseAlertDialog(useCaseAlertDialogModel)
-                }
-
-                val openNonRootDialogState = settingsActivityViewModel.openNonRootDialogState
-                if (openNonRootDialogState.value) {
-                    val permissionAlertDialogModel by settingsActivityViewModel.permissionAlertDialogState.collectAsState()
-                    PermissionAlertDialog(permissionAlertDialogModel)
-                }
-
-
                 val topBarModel by settingsActivityViewModel.topBarUiState.collectAsState()
 
                 val navController = rememberNavController()

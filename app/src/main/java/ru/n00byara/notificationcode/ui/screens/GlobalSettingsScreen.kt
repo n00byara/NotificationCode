@@ -1,5 +1,6 @@
 package ru.n00byara.notificationcode.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.n00byara.notificationcode.R
+import ru.n00byara.notificationcode.ui.components.permissioncard.PermissionCard
 import ru.n00byara.notificationcode.ui.components.usecasealertdialog.UseCaseAlertDialog
 import ru.n00byara.notificationcode.ui.components.usecasealertdialog.UseCaseAlertDialogModel
 import ru.n00byara.notificationcode.ui.viewmodels.GlobalSettingsScreenViewModel
@@ -38,10 +40,19 @@ fun GlobalSettingsScreen(
     LazyColumn(
         Modifier.padding(paddingValues)
     ) {
-        if (globalSettingsScreenViewModel.isRoot) {
-            item {
-                val useCaseDialogModel by globalSettingsScreenViewModel.useCaseDialogState.collectAsState()
-                UseCaseDialog(useCaseDialogModel)
+        item {
+            val useCaseDialogModel by globalSettingsScreenViewModel.useCaseDialogState.collectAsState()
+            UseCaseDialog(useCaseDialogModel)
+        }
+
+        val permissionCardVisibilityUiState = globalSettingsScreenViewModel.permissionCardVisibilityUiState
+
+        item {
+            AnimatedVisibility(
+                visible = permissionCardVisibilityUiState.value
+            ) {
+                val permissionCardModel by globalSettingsScreenViewModel.permissionCardModelUiStateFlow.collectAsState()
+                PermissionCard(permissionCardModel)
             }
         }
     }
@@ -77,7 +88,8 @@ fun UseCaseDialog(
             .wrapContentHeight()
             .clip(RoundedCornerShape(19.dp))
             .clickable {
-                useCaseAlertDialogModel.openDialogState.value = !useCaseAlertDialogModel.openDialogState.value
+                useCaseAlertDialogModel.openDialogState.value =
+                    !useCaseAlertDialogModel.openDialogState.value
             }
 
     ) {

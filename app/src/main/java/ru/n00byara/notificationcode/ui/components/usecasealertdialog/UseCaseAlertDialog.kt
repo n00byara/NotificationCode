@@ -32,7 +32,10 @@ fun UseCaseAlertDialog(useCaseAlertDialogModel: UseCaseAlertDialogModel) {
             useCaseAlertDialogModel.openDialogState.value = false
         },
     ) {
-        val cases = listOf(R.string.alert_dialog_use_case_root, R.string.alert_dialog_use_case_non_root)
+        val cases = listOf(
+            "${stringResource(R.string.alert_dialog_use_case_root)} ${stringResource(R.string.alert_dialog_use_case_recommended)}",
+            stringResource(R.string.alert_dialog_use_case_non_root)
+        )
 
         Card(
             modifier = Modifier
@@ -70,9 +73,9 @@ fun UseCaseAlertDialog(useCaseAlertDialogModel: UseCaseAlertDialogModel) {
 
 @Composable
 fun UseCaseCheckBox(
-    case: Int,
-    selectedOption: Int,
-    onOptionSelected: (Int) -> Unit,
+    case: String,
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit,
     setSelectItem: ((Int) -> Unit)?,
     index: Int
 ) {
@@ -88,7 +91,7 @@ fun UseCaseCheckBox(
             }
         )
         Text(
-            text = stringResource(case)
+            text = case
         )
     }
 }

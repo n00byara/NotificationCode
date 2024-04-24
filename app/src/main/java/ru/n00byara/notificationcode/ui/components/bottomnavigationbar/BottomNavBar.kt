@@ -1,6 +1,5 @@
 package ru.n00byara.notificationcode.ui.components.bottomnavigationbar
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,16 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun BottomNavBar(bottomNavBarModel: BottomNavBarModel) {
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setNavigationBarColor(
-        Color.Transparent,
-        darkIcons = !isSystemInDarkTheme()
-    )
-
     val items = listOf(Screen.Settings, Screen.ApplicationsList)
     val selectedState by remember {
         mutableStateOf(bottomNavBarModel.selected)
