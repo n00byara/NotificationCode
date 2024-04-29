@@ -110,5 +110,6 @@ class SettingsScreenViewModel(private val application: Application) :
             this.settings.getInt(Constants.USE_CASE) == 0 && this.isRootedDevice
         this.permissionCardVisibilityUiState.value =
             this.settings.getInt(Constants.USE_CASE) == 1 && !permission.checkPermission()
+        this.permissionAccess.value = this.permission.checkPermission()
     }
 }
