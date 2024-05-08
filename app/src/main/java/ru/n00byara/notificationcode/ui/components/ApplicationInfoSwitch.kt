@@ -49,6 +49,7 @@ fun ApplicationInfoCheckBox(
                 }
             )
             .padding(start = 10.dp, end = 15.dp, top = 7.dp, bottom = 7.dp)
+
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -56,7 +57,7 @@ fun ApplicationInfoCheckBox(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(10.dp),
+                    .padding(start = 10.dp, end = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
