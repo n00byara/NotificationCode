@@ -1,21 +1,23 @@
 package ru.n00byara.notificationcode.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ru.n00byara.notificationcode.ui.components.bottomnavigationbar.BottomNavBar
-import ru.n00byara.notificationcode.ui.components.bottomnavigationbar.BottomNavBarModel
-import ru.n00byara.notificationcode.ui.components.bottomnavigationbar.Screen
-import ru.n00byara.notificationcode.ui.components.topbar.TopBar
+import ru.n00byara.notificationcode.ui.components.BottomNavBar
+import ru.n00byara.notificationcode.ui.components.BottomNavBarModel
+import ru.n00byara.notificationcode.ui.components.Screen
+import ru.n00byara.notificationcode.ui.components.TopBar
 import ru.n00byara.notificationcode.ui.screens.ApplicationsScreen
 import ru.n00byara.notificationcode.ui.screens.SettingsScreen
 import ru.n00byara.notificationcode.ui.theme.NotificationCodeTheme
@@ -29,14 +31,23 @@ class SettingsActivity : ComponentActivity() {
         const val PREF_SCREEN_SELECTED = "selected_screen_index"
     }
 
+    val settingsActivityViewModel by viewModels<SettingsActivityViewModel>()
+    val settingsScreenViewModel by viewModels<SettingsScreenViewModel>()
+    val applicationsScreenViewModel by viewModels<ApplicationsScreenViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val settingsActivityViewModel = ViewModelProvider(this).get(SettingsActivityViewModel::class.java)
-        val settingsScreenViewModel = ViewModelProvider(this).get(SettingsScreenViewModel::class.java)
-        val applicationsScreenViewModel = ViewModelProvider(this).get(ApplicationsScreenViewModel::class.java)
-
         lifecycle.addObserver(settingsScreenViewModel)
+
+        settingsActivityViewModel.shouldFinishLiveData.observe(
+            this,
+            Observer {
+                val intent = Intent(this, GlobalSettingsActivity::class.java)
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                this.startActivity(intent)
+            }
+        )
 
         setContent {
             NotificationCodeTheme {
@@ -60,23 +71,23 @@ class SettingsActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     NavHost(
-                        navController,
-                        settingsActivityViewModel.getScreenRoute(PREF_SCREEN_ROUTE, Screen.Settings.route),
-                        Modifier.padding(innerPadding)
+                        navController = navController,
+                        startDestination = settingsActivityViewModel.getScreenRoute(PREF_SCREEN_ROUTE, Screen.Settings.route),
+                        modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.Settings.route) {
                             settingsActivityViewModel.setScreenRoute(PREF_SCREEN_ROUTE, Screen.Settings.route)
                             SettingsScreen(
-                                settingsScreenViewModel,
-                                settingsActivityViewModel::updateTopBarTitle
+                                settingsScreenViewModel = settingsScreenViewModel,
+                                setTopBarTitle = settingsActivityViewModel::updateTopBarTitle
                             )
                         }
 
                         composable(Screen.ApplicationsList.route) {
                             settingsActivityViewModel.setScreenRoute(PREF_SCREEN_ROUTE, Screen.ApplicationsList.route)
                             ApplicationsScreen(
-                                applicationsScreenViewModel,
-                                settingsActivityViewModel::updateTopBarTitle
+                                applicationsScreenViewModel = applicationsScreenViewModel,
+                                setTopBarTitle = settingsActivityViewModel::updateTopBarTitle
                             )
                         }
                     }

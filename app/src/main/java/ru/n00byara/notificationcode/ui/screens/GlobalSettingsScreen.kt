@@ -9,40 +9,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.n00byara.notificationcode.R
-import ru.n00byara.notificationcode.ui.components.permissioncard.PermissionCard
-import ru.n00byara.notificationcode.ui.components.usecasealertdialog.UseCaseAlertDialog
-import ru.n00byara.notificationcode.ui.components.usecasealertdialog.UseCaseAlertDialogModel
+import ru.n00byara.notificationcode.ui.components.PermissionCard
+import ru.n00byara.notificationcode.ui.components.UseCaseAlertDialog
+import ru.n00byara.notificationcode.ui.components.UseCaseAlertDialogModel
 import ru.n00byara.notificationcode.ui.viewmodels.GlobalSettingsScreenViewModel
 
 @Composable
 fun GlobalSettingsScreen(
-    globalSettingsScreenViewModel: GlobalSettingsScreenViewModel = viewModel(),
+    globalSettingsScreenViewModel: GlobalSettingsScreenViewModel,
     setTopBarTitle: (String) -> Unit,
     paddingValues: PaddingValues
 ) {
     setTopBarTitle(stringResource(R.string.screen_global_settings_title))
 
     LazyColumn(
-        Modifier.padding(paddingValues)
+        modifier = Modifier.padding(paddingValues)
     ) {
         item {
             val useCaseDialogModel by globalSettingsScreenViewModel.useCaseDialogState.collectAsState()
-            UseCaseDialog(useCaseDialogModel)
+            UseCaseDialog(useCaseDialogModel = useCaseDialogModel)
         }
 
         val permissionCardVisibilityUiState = globalSettingsScreenViewModel.permissionCardVisibilityUiState
@@ -52,7 +48,7 @@ fun GlobalSettingsScreen(
                 visible = permissionCardVisibilityUiState.value
             ) {
                 val permissionCardModel by globalSettingsScreenViewModel.permissionCardModelUiStateFlow.collectAsState()
-                PermissionCard(permissionCardModel)
+                PermissionCard(permissionCardModel = permissionCardModel)
             }
         }
     }
@@ -73,42 +69,41 @@ fun UseCaseDialog(
 
 
     val useCaseAlertDialogModel = UseCaseAlertDialogModel(
-        useCaseDialogModel.openDialogState,
-        useCaseDialogModel.setSelectItem,
-        useCaseDialogModel.selectedCaseIndex
+        openDialogState = useCaseDialogModel.openDialogState,
+        setSelectItem = useCaseDialogModel.setSelectItem,
+        selectedCaseIndex = useCaseDialogModel.selectedCaseIndex
     )
 
     if (useCaseAlertDialogModel.openDialogState.value) {
-        UseCaseAlertDialog(useCaseAlertDialogModel)
+        UseCaseAlertDialog(useCaseAlertDialogModel = useCaseAlertDialogModel)
     }
 
-    Card(
-        Modifier
-            .padding(start = 15.dp, end = 15.dp, top = 7.dp, bottom = 7.dp)
+    Row(
+        modifier = Modifier
             .wrapContentHeight()
-            .clip(RoundedCornerShape(19.dp))
             .clickable {
                 useCaseAlertDialogModel.openDialogState.value =
                     !useCaseAlertDialogModel.openDialogState.value
             }
+            .padding(10.dp)
 
     ) {
         Column(
-            Modifier
+            modifier = Modifier
                 .padding(10.dp)
                 .fillMaxWidth()
 
         ) {
             Row {
                 Text(
-                    stringResource(R.string.alert_dialog_use_case),
+                    text = stringResource(R.string.alert_dialog_use_case),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
             Row {
                 Text(
-                    stringResource(useCaseDialogModel.useCaseTitle),
+                    text = stringResource(useCaseDialogModel.useCaseTitle),
                     fontSize = 15.sp
                 )
             }

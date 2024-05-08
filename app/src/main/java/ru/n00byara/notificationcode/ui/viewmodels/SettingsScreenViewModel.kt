@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ru.n00byara.notificationcode.Constants
-import ru.n00byara.notificationcode.components.permission.Permission
-import ru.n00byara.notificationcode.models.SettingsModel
-import ru.n00byara.notificationcode.ui.components.permissionalertdialog.PermissionAlertDialogModel
-import ru.n00byara.notificationcode.ui.components.permissioncard.PermissionCardModel
-import ru.n00byara.notificationcode.ui.components.usecasealertdialog.UseCaseAlertDialogModel
+import ru.n00byara.notificationcode.permission.Permission
+import ru.n00byara.notificationcode.settings.Settings
+import ru.n00byara.notificationcode.ui.components.PermissionAlertDialogModel
+import ru.n00byara.notificationcode.ui.components.PermissionCardModel
+import ru.n00byara.notificationcode.ui.components.UseCaseAlertDialogModel
 
 class SettingsScreenViewModel(private val application: Application) :
     AndroidViewModel(application),
@@ -26,21 +26,30 @@ class SettingsScreenViewModel(private val application: Application) :
     }
 
     private val context = this.application.applicationContext
-    private val settingsModel = SettingsModel()
+    private val settingsModel = Settings()
     private var permission = Permission(this.context)
-    private val settings = SettingsModel()
+    private val settings = Settings()
+    private val isFirstLaunch = this.settings.getBoolean(IS_FIRST_LAUNCH, true)
+
     val isRootedDevice = RootBeer(this.context).isRooted
-    val isFirstLaunch = this.settings.getBoolean(IS_FIRST_LAUNCH, true)
     val openRootDialogState = mutableStateOf(false)
     val openNonRootDialogState = mutableStateOf(false)
+    val useCase = mutableStateOf(this.settings.getInt(Constants.USE_CASE, 1))
+    val moduleActive = mutableStateOf(this.settingsModel.isActive)
+    val permissionAccess = mutableStateOf(this.permission.checkPermission())
+    val permissionCardVisibilityUiState = mutableStateOf(
+        this.settings.getInt(Constants.USE_CASE) == 1 && !permission.checkPermission()
+    )
+
     private val _useCaseAlertDialogUiState = MutableStateFlow(
         UseCaseAlertDialogModel(
-            this.openRootDialogState,
-            this::setSelectedCase,
-            0
+            openDialogState = this.openRootDialogState,
+            setSelectItem = this::setSelectedCase,
+            selectedCaseIndex = 0
         )
     )
     val useCaseAlertDialogUiState: StateFlow<UseCaseAlertDialogModel> = this._useCaseAlertDialogUiState
+
     private val _permissionAlertDialogState = MutableStateFlow(
         PermissionAlertDialogModel(
             openDialogState = this.openNonRootDialogState,
@@ -48,15 +57,11 @@ class SettingsScreenViewModel(private val application: Application) :
         )
     )
     val permissionAlertDialogState: StateFlow<PermissionAlertDialogModel> = this._permissionAlertDialogState
+
     val visibilityLsposedCardState = mutableStateOf(
         this.settings.getInt(Constants.USE_CASE, 0) == 0 && this.isRootedDevice
     )
-    val useCase = mutableStateOf(this.settings.getInt(Constants.USE_CASE, 1))
-    val moduleActive = mutableStateOf(this.settingsModel.isActive)
-    val permissionAccess = mutableStateOf(this.permission.checkPermission())
-    val permissionCardVisibilityUiState = mutableStateOf(
-        this.settings.getInt(Constants.USE_CASE) == 1 && !permission.checkPermission()
-    )
+
     private val _permissionCardModelUiState = MutableStateFlow(
         PermissionCardModel(openSettings = this::openSettings)
     )
@@ -96,13 +101,9 @@ class SettingsScreenViewModel(private val application: Application) :
         this.visibilityLsposedCardState.value = false
     }
 
-    fun getBoolean(prefName: String): Boolean {
-        return this.settingsModel.getBoolean(prefName)
-    }
+    fun getBoolean(prefName: String): Boolean = this.settingsModel.getBoolean(prefName)
 
-    fun setBoolean(prefName: String, value: Boolean) {
-        this.settingsModel.setBoolean(prefName, value)
-    }
+    fun setBoolean(prefName: String, value: Boolean) = this.settingsModel.setBoolean(prefName, value)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun onResume() {
