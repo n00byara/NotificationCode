@@ -4,11 +4,11 @@ import android.app.Notification
 import android.content.Context
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 import com.highcapable.yukihookapi.hook.factory.constructor
+import com.highcapable.yukihookapi.hook.factory.current
 import com.highcapable.yukihookapi.hook.factory.prefs
 import com.highcapable.yukihookapi.hook.type.android.ContextClass
 import com.highcapable.yukihookapi.hook.type.android.NotificationClass
 import com.highcapable.yukihookapi.hook.type.android.Notification_BuilderClass
-import com.highcapable.yukihookapi.hook.type.android.ParcelClass
 import com.highcapable.yukihookapi.hook.xposed.application.ModuleApplication
 import ru.n00byara.notificationcode.Constants
 import ru.n00byara.notificationcode.application.HookedAppInfo
@@ -18,64 +18,36 @@ object SystemUIHooker : YukiBaseHooker() {
     override fun onHook() {
         loadApp {
             val prefs = ModuleApplication().prefs(Constants.SETTINGS_NAME)
-            var context: Context? = null
 
             Notification_BuilderClass.constructor {
                 param(ContextClass, NotificationClass)
-            }.hook {
-                after {
-                    context = args(0).cast<Context>()
-                }
-            }
+            }.hook()
+                .after {
+                    val builder = instance.current()
 
-            NotificationClass.constructor {
-                param(ParcelClass)
-            }.hook().after {
-                if (prefs.getInt(Constants.USE_CASE) == 0) {
-                    val notification = instance<Notification>()
+                    val hookedContext = builder.field { name = "mContext" }.cast<Context>()!!
+                    val notification = builder.field { name = "mN" }.cast<Notification>()!!
 
-                    context?.let { context ->
-                        val appInfo = HookedAppInfo(context)
+                    val appInfo = HookedAppInfo(hookedContext)
 
-                        if (appInfo.isSystem) {
-                            notification.extras?.let { extras ->
-                                extras.getCharSequence(Constants.EXTRA_TEXT)?.let { contentText ->
-                                    Clip(
-                                        context = appContext!!,
-                                        contentText = contentText,
-                                        prefs = prefs
-                                    )
-                                }
-                            }
-                        } else {
-                            if (appInfo.isActive) {
-                                notification.extras?.let { extras ->
-                                    extras.getCharSequence(Constants.EXTRA_TEXT)?.let { contentText ->
-                                        if (appInfo.name == Constants.SHAZAM_APP_NAME && notification.getChannelId() == Constants.SHAZAM_CHANNEL_ID) {
-                                            val contentTitle = extras.getCharSequence(Constants.EXTRA_TITLE)
+                    if (!(appInfo.isSystem || appInfo.isActive)) return@after
 
-                                            Clip(
-                                                context = appContext!!,
-                                                contentText = contentText,
-                                                contentTitle = contentTitle,
-                                                prefs = prefs
-                                            )
-                                        } else {
-                                            Clip(
-                                                context = appContext!!,
-                                                contentText = contentText,
-                                                prefs = prefs
-                                            )
-                                        }
-                                    }
-                                }
-                            } else {
-                                // Do nothing
+                    notification.extras?.getCharSequence(Constants.EXTRA_TEXT)?.let { contentText ->
+                        var contentTitle: CharSequence? = null
+                        if (Constants.SHAZAM_CHANNEL_ID == notification.channelId) {
+                            notification.extras.getCharSequence(Constants.EXTRA_TITLE)?.let {
+                                contentTitle = it
                             }
                         }
+
+                        Clip(
+                            context = appContext!!,
+                            contentText = contentText,
+                            contentTitle = contentTitle,
+                            prefs = prefs
+                        )
                     }
                 }
-            }
         }
     }
 }
