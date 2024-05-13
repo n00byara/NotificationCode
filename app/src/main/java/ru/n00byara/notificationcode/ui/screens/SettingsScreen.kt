@@ -1,6 +1,5 @@
 package ru.n00byara.notificationcode.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,22 +16,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.n00byara.notificationcode.Constants
 import ru.n00byara.notificationcode.R
-import ru.n00byara.notificationcode.ui.components.PermissionAlertDialog
-import ru.n00byara.notificationcode.ui.components.PermissionCard
 import ru.n00byara.notificationcode.ui.components.Switcher
 import ru.n00byara.notificationcode.ui.components.SwitcherModel
-import ru.n00byara.notificationcode.ui.components.UseCaseAlertDialog
 import ru.n00byara.notificationcode.ui.viewmodels.SettingsScreenViewModel
 import kotlin.reflect.KFunction1
 
@@ -43,27 +36,10 @@ fun SettingsScreen(
 ) {
     setTopBarTitle(stringResource(R.string.screen_settings_title))
 
-    val openRootDialogState = settingsScreenViewModel.openRootDialogState
-    if (openRootDialogState.value) {
-        val useCaseAlertDialogModel by settingsScreenViewModel.useCaseAlertDialogUiState.collectAsState()
-        UseCaseAlertDialog(useCaseAlertDialogModel = useCaseAlertDialogModel)
-    }
-
-    val openNonRootDialogState = settingsScreenViewModel.openNonRootDialogState
-    if (openNonRootDialogState.value) {
-        val permissionAlertDialogModel by settingsScreenViewModel.permissionAlertDialogState.collectAsState()
-        PermissionAlertDialog(permissionAlertDialogModel = permissionAlertDialogModel)
-    }
-
     LazyColumn {
         item {
-            AnimatedVisibility(
-                visible = settingsScreenViewModel.visibilityLsposedCardState.value,
-            ) {
-                LsposedInfoCard(isActive = settingsScreenViewModel.moduleActive.value)
-            }
+            LsposedInfoCard(isActive = settingsScreenViewModel.moduleActive)
         }
-
         itemsIndexed(
             listOf(
                 SwitcherModel(
@@ -71,51 +47,32 @@ fun SettingsScreen(
                     prefName = Constants.SWITCH_CODE,
                     state = settingsScreenViewModel.getBoolean(Constants.SWITCH_CODE),
                     setState = settingsScreenViewModel::setBoolean,
-                    useCase = settingsScreenViewModel.useCase,
-                    moduleActive = settingsScreenViewModel.moduleActive,
-                    premissionAccess = settingsScreenViewModel.permissionAccess
+                    moduleActive = settingsScreenViewModel.moduleActive
                 ),
                 SwitcherModel(
                     title = R.string.switcher_phone,
                     prefName = Constants.SWITCH_PHONE,
                     state = settingsScreenViewModel.getBoolean(Constants.SWITCH_PHONE),
                     setState = settingsScreenViewModel::setBoolean,
-                    useCase = settingsScreenViewModel.useCase,
                     moduleActive = settingsScreenViewModel.moduleActive,
-                    premissionAccess = settingsScreenViewModel.permissionAccess
                 ),
                 SwitcherModel(
                     title = R.string.switcher_shazam,
                     prefName = Constants.APPLICATION_PREF + Constants.SHAZAM_PACKAGE,
                     state = settingsScreenViewModel.getBoolean(Constants.APPLICATION_PREF + Constants.SHAZAM_PACKAGE),
                     setState = settingsScreenViewModel::setBoolean,
-                    useCase = settingsScreenViewModel.useCase,
                     moduleActive = settingsScreenViewModel.moduleActive,
-                    premissionAccess = settingsScreenViewModel.permissionAccess
                 ),
                 SwitcherModel(
                     title = R.string.switcher_track_numbers,
                     prefName = Constants.SWITHC_TRACK_NUMBER,
                     state = settingsScreenViewModel.getBoolean(Constants.SWITHC_TRACK_NUMBER),
                     setState = settingsScreenViewModel::setBoolean,
-                    useCase = settingsScreenViewModel.useCase,
                     moduleActive = settingsScreenViewModel.moduleActive,
-                    premissionAccess = settingsScreenViewModel.permissionAccess
                 )
             )
         ) { _, item ->
             Switcher(switcherModel = item)
-        }
-
-        val permissionCardVisibilityUiState = settingsScreenViewModel.permissionCardVisibilityUiState
-
-        item {
-            AnimatedVisibility(
-                visible = permissionCardVisibilityUiState.value
-            ) {
-                val permissionCardModel by settingsScreenViewModel.permissionCardModelUiStateFlow.collectAsState()
-                PermissionCard(permissionCardModel = permissionCardModel)
-            }
         }
     }
 }
@@ -125,7 +82,7 @@ fun LsposedInfoCard(isActive: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp)
+            .padding(20.dp)
             .height(125.dp)
             .clip(RoundedCornerShape(19.dp))
             .background(

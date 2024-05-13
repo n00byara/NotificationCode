@@ -20,18 +20,4 @@ class ApplicationsList(private val context: Context) {
 
         return result
     }
-
-    fun getAllApplications(): List<InstalledAppInfo> {
-        val result = mutableListOf<InstalledAppInfo>()
-
-        this.allInstalledApplications.forEach { applicationInfo ->
-            val appInfo = InstalledAppInfo(this.pm, applicationInfo)
-
-            if (!appInfo.isSystem) {
-                result.add(appInfo)
-            }
-        }
-
-        return result
-    }
 }

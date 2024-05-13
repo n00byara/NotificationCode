@@ -1,6 +1,5 @@
 package ru.n00byara.notificationcode.ui.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.Observer
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -37,17 +35,6 @@ class SettingsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        lifecycle.addObserver(settingsScreenViewModel)
-
-        settingsActivityViewModel.shouldFinishLiveData.observe(
-            this,
-            Observer {
-                val intent = Intent(this, GlobalSettingsActivity::class.java)
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                this.startActivity(intent)
-            }
-        )
 
         setContent {
             NotificationCodeTheme {

@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.n00byara.notificationcode.Constants
 import ru.n00byara.notificationcode.R
 import ru.n00byara.notificationcode.ui.components.ApplicationInfoCheckBox

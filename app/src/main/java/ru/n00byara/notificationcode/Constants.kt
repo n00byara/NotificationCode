@@ -7,10 +7,8 @@ object Constants {
     const val SWITCH_CODE = "switch_code"
     const val SWITCH_PHONE = "switch_phone"
     const val SWITHC_TRACK_NUMBER = "switch_track_number"
-    const val USE_CASE = "use_case"
     const val EXTRA_TEXT = "android.text"
     const val EXTRA_TITLE = "android.title"
-    const val SHAZAM_APP_NAME = "Shazam"
     const val SHAZAM_CHANNEL_ID = "notification_shazam_match_v1"
     const val SHAZAM_PACKAGE = "com.shazam.android"
 }
