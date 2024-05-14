@@ -23,7 +23,7 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import ru.n00byara.notificationcode.Constants
 import ru.n00byara.notificationcode.application.InstalledAppInfo
 
-data class ApplicationInfoSwitchModel(
+data class ApplicationInfoCheckBoxModel(
     val appInfo: InstalledAppInfo,
     val checked: Boolean,
     val setState: (String, Boolean) -> Unit
@@ -31,7 +31,7 @@ data class ApplicationInfoSwitchModel(
 
 @Composable
 fun ApplicationInfoCheckBox(
-    applicationInfoSwitchModel: ApplicationInfoSwitchModel
+    applicationInfoSwitchModel: ApplicationInfoCheckBoxModel
 ) {
     var checkedState by remember { mutableStateOf(applicationInfoSwitchModel.checked) }
 

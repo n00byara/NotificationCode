@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import ru.n00byara.notificationcode.Constants
 import ru.n00byara.notificationcode.R
 import ru.n00byara.notificationcode.ui.components.ApplicationInfoCheckBox
-import ru.n00byara.notificationcode.ui.components.ApplicationInfoSwitchModel
+import ru.n00byara.notificationcode.ui.components.ApplicationInfoCheckBoxModel
 import ru.n00byara.notificationcode.ui.viewmodels.ApplicationsScreenViewModel
 import kotlin.reflect.KFunction1
 
@@ -27,7 +27,7 @@ fun ApplicationsScreen(
         itemsIndexed(
             applicationsScreenViewModel.applications
         ) { index, appInfo ->
-            val applicationInfoSwitchModel = ApplicationInfoSwitchModel(
+            val applicationInfoSwitchModel = ApplicationInfoCheckBoxModel(
                 appInfo = appInfo,
                 checked = applicationsScreenViewModel.getApplicationState(Constants.APPLICATION_PREF + appInfo.packageName),
                 setState = applicationsScreenViewModel::setApplicationState
