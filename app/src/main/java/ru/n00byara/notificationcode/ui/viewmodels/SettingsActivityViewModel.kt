@@ -13,9 +13,9 @@ import ru.n00byara.notificationcode.settings.Settings
 import ru.n00byara.notificationcode.terminal.Terminal
 import ru.n00byara.notificationcode.ui.components.TopBarModel
 
-class SettingsActivityViewModel : ViewModel(), LifecycleObserver {
-    private val settings = Settings()
-
+class SettingsActivityViewModel(
+    private val settings: Settings
+) : ViewModel(), LifecycleObserver {
     private val _topBarUiState = MutableStateFlow(TopBarModel())
     val topBarUiState: StateFlow<TopBarModel> = _topBarUiState.asStateFlow()
 

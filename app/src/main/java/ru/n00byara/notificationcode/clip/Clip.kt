@@ -11,7 +11,7 @@ import java.util.regex.Pattern
 class Clip(
     private val context: Context,
     private val contentText: CharSequence,
-    private val contentTitle: CharSequence? = null,
+    private val contentTitle: CharSequence?,
     val prefs: YukiHookPrefsBridge
 ) {
 

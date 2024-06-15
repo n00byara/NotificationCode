@@ -1,17 +1,15 @@
 package ru.n00byara.notificationcode.settings
 
-import com.highcapable.yukihookapi.YukiHookAPI
+import com.highcapable.yukihookapi.YukiHookAPI.Status.isXposedModuleActive
 import com.highcapable.yukihookapi.hook.factory.prefs
-import com.highcapable.yukihookapi.hook.xposed.application.ModuleApplication
+import com.highcapable.yukihookapi.hook.xposed.application.ModuleApplication.Companion.appContext
 import ru.n00byara.notificationcode.Constants
 
 class Settings {
-    private val prefs = ModuleApplication.appContext.prefs(Constants.SETTINGS_NAME)
-    val isActive = YukiHookAPI.Status.isXposedModuleActive
+    private val prefs = appContext.prefs(Constants.SETTINGS_NAME)
+    val isActive = isXposedModuleActive
 
-    fun getBoolean(prefName: String, value: Boolean = false): Boolean {
-        return this.prefs.getBoolean(prefName, value)
-    }
+    fun getBoolean(prefName: String, value: Boolean = false) = this.prefs.getBoolean(prefName, value)
 
     fun setBoolean(prefName: String, value: Boolean) {
         this.prefs.edit()
@@ -19,9 +17,7 @@ class Settings {
             .apply()
     }
 
-    fun getString(prefName: String, value: String = ""): String {
-        return this.prefs.getString(prefName, value)
-    }
+    fun getString(prefName: String, value: String = "") = this.prefs.getString(prefName, value)
 
     fun setString(prefName: String, value: String) {
         this.prefs.edit()
@@ -29,9 +25,7 @@ class Settings {
             .apply()
     }
 
-    fun getInt(prefName: String, value: Int = 0): Int {
-        return this.prefs.getInt(prefName, value)
-    }
+    fun getInt(prefName: String, value: Int = 0) = this.prefs.getInt(prefName, value)
 
     fun setInt(prefName: String, value: Int) {
         this.prefs.edit()

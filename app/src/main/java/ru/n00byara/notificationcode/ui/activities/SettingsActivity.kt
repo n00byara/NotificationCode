@@ -3,7 +3,6 @@ package ru.n00byara.notificationcode.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
@@ -12,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.n00byara.notificationcode.ui.components.BottomNavBar
 import ru.n00byara.notificationcode.ui.components.BottomNavBarModel
 import ru.n00byara.notificationcode.ui.components.Screen
@@ -29,9 +29,9 @@ class SettingsActivity : ComponentActivity() {
         const val PREF_SCREEN_SELECTED = "selected_screen_index"
     }
 
-    val settingsActivityViewModel by viewModels<SettingsActivityViewModel>()
-    val settingsScreenViewModel by viewModels<SettingsScreenViewModel>()
-    val applicationsScreenViewModel by viewModels<ApplicationsScreenViewModel>()
+    val settingsActivityViewModel: SettingsActivityViewModel by viewModel()
+    val settingsScreenViewModel: SettingsScreenViewModel by viewModel()
+    val applicationsScreenViewModel: ApplicationsScreenViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

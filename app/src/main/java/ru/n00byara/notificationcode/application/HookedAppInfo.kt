@@ -3,11 +3,11 @@ package ru.n00byara.notificationcode.application
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import com.highcapable.yukihookapi.hook.factory.prefs
-import com.highcapable.yukihookapi.hook.xposed.application.ModuleApplication
 import ru.n00byara.notificationcode.Constants
+import ru.n00byara.notificationcode.NCApplication
 
 class HookedAppInfo(private val hookedContext: Context) {
-    val prefs = ModuleApplication().prefs(Constants.SETTINGS_NAME)
+    val prefs = NCApplication().prefs(Constants.SETTINGS_NAME)
     val isActive: Boolean
     val isSystem: Boolean
     val name: String
