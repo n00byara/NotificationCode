@@ -23,13 +23,13 @@ object SystemUIHooker : YukiBaseHooker() {
             }.hook()
                 .after {
                     val hookedContext = args(0).cast<Context>()!!
-                    val notification = args(1).cast<Notification>()!!
+                    val notification = args(1).cast<Notification>()
 
                     val appInfo = HookedAppInfo(hookedContext)
 
                     if (!(appInfo.isSystem || appInfo.isActive)) return@after
 
-                    notification.extras?.getCharSequence(Constants.EXTRA_TEXT)?.let { contentText ->
+                    notification?.extras?.getCharSequence(Constants.EXTRA_TEXT)?.let { contentText ->
                         var contentTitle: CharSequence? = null
                         if (Constants.SHAZAM_CHANNEL_ID == notification.channelId) {
                             notification.extras.getCharSequence(Constants.EXTRA_TITLE)?.let {
